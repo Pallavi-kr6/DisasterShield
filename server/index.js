@@ -49,7 +49,7 @@ const PORT = process.env.PORT || 5000;
 
 // Helper: call local Python runner with timeout + single retry
 function resolvePythonCmd() {
-  return process.env.PYTHON_CMD || 'python3';
+  return process.env.PYTHON_CMD || '/opt/render/project/src/.venv/bin/python';
 }
 
 async function callAiPredictAll(payload) {
