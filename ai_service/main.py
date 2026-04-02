@@ -21,7 +21,7 @@ class PredictAllRequest(BaseModel):
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # CRITICAL: Use only pre-trained models from /models (no training).
-    from models.predict import load_models  # type: ignore
+    from ..models.predict import load_models  # type: ignore
 
     load_models(MODELS_DIR)
     yield

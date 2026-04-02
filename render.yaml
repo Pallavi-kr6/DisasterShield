@@ -1,19 +1,44 @@
 services:
-  # Backend - FastAPI
+  # Backend - Node.js
   - type: web
     name: disastershield-backend
+    runtime: node
+    rootDir: server
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: AI_URL
+        value: https://disastershield-ai.onrender.com
+      - key: JWT_SECRET
+        value: change-this-in-production
+      - key: JWT_EXPIRES_IN
+        value: 8h
+      - key: SUPABASE_URL
+        value: https://aatijjgyomriuuujrkuo.supabase.co
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFhdGlqamd5b21yaXV1dWpya3VvIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NTEyNDc4NCwiZXhwIjoyMDkwNzAwNzg0fQ.nCDo8K8YgWau8ZcXixOvC3vZe1EnDVxXX-UTRdLklo4
+      - key: OPENWEATHER_API_KEY
+        value: 2509cae495b7190a1fb96534342fd130
+      - key: PYTHON_CMD
+        value: python
+
+  # AI Service - Python
+  - type: web
+    name: disastershield-ai
     runtime: python
-    rootDir: backend
+    rootDir: ai_service
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.0
+      - key: PYTHONPATH
+        value: /opt/render/project/src
 
   # Frontend - React
   - type: static
     name: disastershield-frontend
-    rootDir: frontend
+    rootDir: web
     buildCommand: npm install && npm run build
     staticPublishPath: dist
     envVars:
