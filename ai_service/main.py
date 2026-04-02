@@ -21,7 +21,11 @@ class PredictAllRequest(BaseModel):
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # CRITICAL: Use only pre-trained models from /models (no training).
-    from ..models.predict import load_models  # type: ignore
+    import sys
+    parent_dir = os.path.dirname(MODELS_DIR)  # Get parent of models dir (project root)
+    if parent_dir not in sys.path:
+        sys.path.insert(0, parent_dir)
+    from models.predict import load_models  # type: ignore
 
     load_models(MODELS_DIR)
     yield
