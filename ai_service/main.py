@@ -78,3 +78,11 @@ def predict_all(body: PredictAllRequest):
         "city_supported": result.get("city_supported"),
     }
 
+@app.get("/")
+def home():
+    return {
+        "message": "DisasterShield API is running 🚀",
+        "docs": "/docs",
+        "health": "/health",
+        "predict": "/predict-all"
+    }
