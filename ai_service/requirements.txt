@@ -6,3 +6,4 @@ numpy
 sqlalchemy
 pydantic
 xgboost
+pandas
