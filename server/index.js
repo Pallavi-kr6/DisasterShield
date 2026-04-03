@@ -8,7 +8,7 @@ import { getLocationFromRequest, reverseGeocodeCity } from './services/locationS
 import { computeDecision } from './services/decisionEngine.js';
 import bcrypt from 'bcryptjs';
 import { signToken, verifyToken } from './auth.js';
-import { localFindOne, localInsert } from './localStore.js';
+import { computePremium } from './premium.js';
 
 const app = express();
 app.use(cors());
@@ -109,6 +109,7 @@ app.post('/api/auth/register', async (req, res) => {
     email,
     password_hash: hash,
     city,
+    role: 'user', // Add role
   };
 
   localInsert('users', user);
@@ -124,6 +125,29 @@ app.post('/api/auth/login', async (req, res) => {
   if (!ok) return res.status(401).json({ error: 'Invalid' });
 
   res.json({ token: signToken(user), user });
+});
+
+app.get('/api/auth/me', verifyToken, (req, res) => {
+  res.json({ user: req.user });
+});
+
+app.post('/api/premium', verifyToken, (req, res) => {
+  try {
+    const result = computePremium(req.body);
+    res.json(result);
+  } catch (e) {
+    res.status(400).json({ error: e.message });
+  }
+});
+
+app.get('/api/claims/:userId', verifyToken, (req, res) => {
+  // Mock claims data
+  res.json({ claims: [] });
+});
+
+app.get('/api/transactions/:userId', verifyToken, (req, res) => {
+  // Mock transactions data
+  res.json({ transactions: [] });
 });
 
 //
