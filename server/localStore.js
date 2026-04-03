@@ -1,5 +1,5 @@
-import fs from 'node:fs';
-import path from 'node:path';
+const fs = require('node:fs');
+const path = require('node:path');
 
 const STORE_PATH = path.join(process.cwd(), 'local_store.json');
 
@@ -16,7 +16,7 @@ function writeStore(store) {
   fs.writeFileSync(STORE_PATH, JSON.stringify(store, null, 2), 'utf8');
 }
 
-export function localInsert(table, row) {
+function localInsert(table, row) {
   const store = readStore();
   if (!store[table]) store[table] = [];
   store[table].push(row);
@@ -24,7 +24,9 @@ export function localInsert(table, row) {
   return row;
 }
 
-export function localUpsertById(table, idField, row) {
+module.exports.localInsert = localInsert;
+
+function localUpsertById(table, idField, row) {
   const store = readStore();
   if (!store[table]) store[table] = [];
   const id = row?.[idField];
@@ -40,14 +42,20 @@ export function localUpsertById(table, idField, row) {
   return row;
 }
 
-export function localSelect(table, predicate, { limit = 200 } = {}) {
+module.exports.localUpsertById = localUpsertById;
+
+function localSelect(table, predicate, { limit = 200 } = {}) {
   const store = readStore();
   const rows = (store[table] || []).filter(predicate);
   return rows.slice(-limit).reverse();
 }
 
-export function localFindOne(table, predicate) {
+module.exports.localSelect = localSelect;
+
+function localFindOne(table, predicate) {
   const store = readStore();
   return (store[table] || []).find(predicate) || null;
 }
+
+module.exports.localFindOne = localFindOne;
 

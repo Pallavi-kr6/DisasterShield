@@ -1,9 +1,9 @@
-import jwt from 'jsonwebtoken';
+const jwt = require('jsonwebtoken');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'dev-secret-change-me';
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '8h';
 
-export function signToken(user) {
+function signToken(user) {
   return jwt.sign(
     { sub: user.id, role: user.role, email: user.email, name: user.name },
     JWT_SECRET,
@@ -11,7 +11,7 @@ export function signToken(user) {
   );
 }
 
-export function verifyToken(req, res, next) {
+function verifyToken(req, res, next) {
   const auth = req.headers.authorization || '';
   const [, token] = auth.split(' ');
   if (!token) return res.status(401).json({ detail: 'Missing bearer token' });
@@ -23,11 +23,13 @@ export function verifyToken(req, res, next) {
   }
 }
 
-export function checkRole(role) {
+function checkRole(role) {
   return (req, res, next) => {
     if (!req.user?.role) return res.status(401).json({ detail: 'Unauthorized' });
     if (req.user.role !== role) return res.status(403).json({ detail: 'Forbidden' });
     return next();
   };
 }
+
+module.exports = { signToken, verifyToken, checkRole };
 

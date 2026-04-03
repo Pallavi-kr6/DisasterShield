@@ -1,14 +1,15 @@
-import 'dotenv/config';
-import express from 'express';
-import cors from 'cors';
-import axios from 'axios';
-import { z } from 'zod';
-import { getWeatherForCity } from './services/weatherService.js';
-import { getLocationFromRequest, reverseGeocodeCity } from './services/locationService.js';
-import { computeDecision } from './services/decisionEngine.js';
-import bcrypt from 'bcryptjs';
-import { signToken, verifyToken } from './auth.js';
-import { computePremium } from './premium.js';
+require('dotenv').config();
+const express = require('express');
+const cors = require('cors');
+const axios = require('axios');
+const { z } = require('zod');
+const { getWeatherForCity } = require('./services/weatherService.js');
+const { getLocationFromRequest, reverseGeocodeCity } = require('./services/locationService.js');
+const { computeDecision } = require('./services/decisionEngine.js');
+const bcrypt = require('bcryptjs');
+const { signToken, verifyToken } = require('./auth.js');
+const { localFindOne, localInsert } = require('./localStore.js');
+const { computePremium } = require('./premium.js');
 
 const app = express();
 app.use(cors());

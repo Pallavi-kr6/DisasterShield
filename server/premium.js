@@ -1,6 +1,6 @@
-import { z } from 'zod';
+const { z } = require('zod');
 
-export const premiumRequestSchema = z.object({
+const premiumRequestSchema = z.object({
   platform: z.enum(['ZOMATO_SWIGGY', 'ZEPTO_BLINKIT', 'AMAZON_FLIPKART']),
   city: z.string().min(1),
   coverage_pct: z.number().min(0.5).max(0.7).default(0.7),
@@ -58,7 +58,7 @@ function tierForPremium(p) {
   return 'High Risk';
 }
 
-export function computePremium(input) {
+function computePremium(input) {
   const base = baseRateByPlatform[input.platform];
   const rm = riskMultiplier(input.risk_level);
   const tm = triggerMultiplier(input.trigger_rate ?? 0.3);
@@ -80,4 +80,6 @@ export function computePremium(input) {
     },
   };
 }
+
+module.exports = { premiumRequestSchema, computePremium };
 
