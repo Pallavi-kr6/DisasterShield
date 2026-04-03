@@ -1,4 +1,5 @@
 require('dotenv').config();
+const crypto = require('crypto');
 const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
@@ -8,8 +9,9 @@ const { getLocationFromRequest, reverseGeocodeCity } = require('./services/locat
 const { computeDecision } = require('./services/decisionEngine.js');
 const bcrypt = require('bcryptjs');
 const { signToken, verifyToken } = require('./auth.js');
-const { localFindOne, localInsert } = require('./localStore.js');
+const { localFindOne, localInsert, localSelect } = require('./localStore.js');
 const { computePremium } = require('./premium.js');
+const { getSupabase } = require('./supabase.js');
 
 const app = express();
 app.use(cors());
@@ -105,13 +107,24 @@ app.post('/api/auth/register', async (req, res) => {
   const hash = await bcrypt.hash(password, 10);
 
   const user = {
-    id: Date.now().toString(),
+    id: crypto.randomUUID(),
     name,
     email,
     password_hash: hash,
     city,
     role: 'user', // Add role
+    platform: req.body.platform || 'ZOMATO_SWIGGY',
   };
+
+  try {
+    const supabase = getSupabase();
+    if (supabase) {
+      const { error } = await supabase.from('users').insert([user]);
+      if (error) console.error('Supabase write err (user):', error);
+    }
+  } catch (e) {
+    console.error('Supabase write err:', e);
+  }
 
   localInsert('users', user);
 
@@ -119,7 +132,21 @@ app.post('/api/auth/register', async (req, res) => {
 });
 
 app.post('/api/auth/login', async (req, res) => {
-  const user = localFindOne('users', u => u.email === req.body.email);
+  let user = null;
+  try {
+    const supabase = getSupabase();
+    if (supabase) {
+      const { data } = await supabase.from('users').select('*').eq('email', req.body.email).single();
+      if (data) user = data;
+    }
+  } catch (e) {
+    console.error('Supabase read err:', e.message);
+  }
+
+  if (!user) {
+    user = localFindOne('users', u => u.email === req.body.email);
+  }
+
   if (!user) return res.status(401).json({ error: 'Invalid' });
 
   const ok = await bcrypt.compare(req.body.password, user.password_hash);
@@ -141,14 +168,38 @@ app.post('/api/premium', verifyToken, (req, res) => {
   }
 });
 
-app.get('/api/claims/:userId', verifyToken, (req, res) => {
-  // Mock claims data
-  res.json({ claims: [] });
+app.get('/api/claims/:userId', verifyToken, async (req, res) => {
+  let claims = [];
+  try {
+    const supabase = getSupabase();
+    if (supabase) {
+      const { data } = await supabase.from('claims').select('*').eq('user_id', req.params.userId).order('created_at', { ascending: false });
+      if (data) claims = data;
+    }
+  } catch (e) {}
+
+  if (!claims || claims.length === 0) {
+    claims = localSelect('claims', c => c.user_id === req.params.userId);
+  }
+
+  res.json({ claims });
 });
 
-app.get('/api/transactions/:userId', verifyToken, (req, res) => {
-  // Mock transactions data
-  res.json({ transactions: [] });
+app.get('/api/transactions/:userId', verifyToken, async (req, res) => {
+  let transactions = [];
+  try {
+    const supabase = getSupabase();
+    if (supabase) {
+      const { data } = await supabase.from('transactions').select('*').eq('user_id', req.params.userId).order('created_at', { ascending: false });
+      if (data) transactions = data;
+    }
+  } catch (e) {}
+
+  if (!transactions || transactions.length === 0) {
+    transactions = localSelect('transactions', t => t.user_id === req.params.userId);
+  }
+
+  res.json({ transactions });
 });
 
 //
@@ -200,7 +251,11 @@ app.post('/api/analyze', verifyToken, async (req, res) => {
     });
 
   } catch (e) {
-    console.error(e);
+    if (e.isAxiosError) {
+      console.error('[Analyze Error]', e.message, e.response?.data);
+    } else {
+      console.error('[Analyze Error]', e?.message || 'Unknown error');
+    }
 
     // 🔥 LAST RESORT FALLBACK
     res.json({
@@ -208,6 +263,83 @@ app.post('/api/analyze', verifyToken, async (req, res) => {
       message: 'System recovered gracefully',
       payout: 2000,
     });
+  }
+});
+
+//
+// 🔥 MAIN TRIGGER ROUTE
+//
+app.post('/api/trigger', verifyToken, async (req, res) => {
+  try {
+    const ai = {
+      triggered: true,
+      risk_level: 'HIGH',
+      predicted_loss: req.body.expected_income * 0.4,
+      payout_amount: req.body.expected_income * 0.5,
+      trigger_score: 0.9,
+      fraud_score: 0.1,
+      fraud_flagged: false,
+      decision: 'APPROVED',
+      final_payout: req.body.expected_income * 0.5,
+      reason: 'Severe disaster event triggered manually.',
+    };
+
+    const claim = {
+      id: crypto.randomUUID(),
+      user_id: req.user.sub,
+      created_at: new Date().toISOString(),
+      risk_level: ai.risk_level,
+      decision: ai.decision,
+      trust_score: 0.9,
+      final_payout: ai.final_payout,
+    };
+
+    const transaction = {
+      id: crypto.randomUUID(),
+      user_id: req.user.sub,
+      payout_amount: ai.final_payout,
+      status: 'PAID',
+      created_at: new Date().toISOString(),
+    };
+
+    try {
+      const supabase = getSupabase();
+      if (supabase && req.user.sub.includes('-')) {
+        const { error: claimsErr } = await supabase.from('claims').insert([{
+          id: claim.id,
+          user_id: claim.user_id,
+          risk_level: claim.risk_level,
+          decision: claim.decision,
+          trust_score: claim.trust_score,
+          final_payout: claim.final_payout
+        }]);
+        if (claimsErr) console.error('Supabase trigger save err (claims):', claimsErr?.message || claimsErr);
+        
+        const { error: txErr } = await supabase.from('transactions').insert([{
+          id: transaction.id,
+          user_id: transaction.user_id,
+          payout_amount: transaction.payout_amount,
+          status: transaction.status
+        }]);
+        if (txErr) console.error('Supabase trigger save err (transactions):', txErr?.message || txErr);
+      } else if (!req.user.sub.includes('-')) {
+         console.warn("Legacy timestamp User ID detected. Supabase sync skipped due to strict UUID constraints. Using local_store only.");
+      }
+    } catch (e) {
+      console.error('Supabase trigger save err:', e?.message || e);
+    }
+
+    localInsert('claims', claim);
+    localInsert('transactions', transaction);
+
+    res.json({
+      ai,
+      approved: true,
+      payment: { status: 'PAID' },
+    });
+  } catch (e) {
+    console.error('Trigger Endpoint Exception:', e?.message || e);
+    res.status(500).json({ detail: 'Trigger failed' });
   }
 });
 
