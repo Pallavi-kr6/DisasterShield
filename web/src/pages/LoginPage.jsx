@@ -42,6 +42,10 @@ export function LoginPage({ onAuth }) {
         <button className="btn-primary w-full" disabled={loading}>
           {loading ? 'Signing in…' : 'Login'}
         </button>
+<p> Use Email : Worker@gmail.com</p>
+<p>Password: Worker123@</p>
+
+
       </form>
 
       <div className="text-sm text-slate-400 mt-4">
