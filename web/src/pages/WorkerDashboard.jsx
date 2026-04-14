@@ -6,6 +6,7 @@ import {
   CloudRain, Wind, Thermometer, MapPin, AlertTriangle, ShieldCheck,
   Activity, Shield, Info, DollarSign, Rocket, CheckCircle2, XCircle, Search
 } from 'lucide-react';
+import PayoutAnimation from '../components/PayoutAnimation';
 
 const platformOptions = [
   { value: 'ZOMATO_SWIGGY', label: 'Zomato / Swiggy', base: 35 },
@@ -26,6 +27,11 @@ export function WorkerDashboard({ user, tab = 'dashboard' }) {
   const [history, setHistory] = useState({ claims: [], transactions: [] });
   const [error, setError] = useState('');
   const [geo, setGeo] = useState({ lat: null, lon: null, status: 'idle' });
+  const [payoutData, setPayoutData] = useState({ amount: 0, mode: '', show: false });
+  
+  // TOAST NOTIFICATION STATE
+  const [monitorToast, setMonitorToast] = useState(null);
+  const [lastLogId, setLastLogId] = useState(null);
 
   const savingsData = useMemo(() => {
     const predictedLoss = Number(ai?.predicted_loss || 0);
@@ -54,7 +60,27 @@ export function WorkerDashboard({ user, tab = 'dashboard' }) {
 
   useEffect(() => {
     fetchHistory();
-  }, [tab]);
+    
+    // Polling background automatic monitor status
+    const pollInterval = setInterval(async () => {
+      try {
+        const r = await api.get('/api/monitor-status');
+        const log = r.data?.log;
+        // If we found a newest log and we haven't shown it yet
+        if (log && log.id !== lastLogId) {
+           setLastLogId(log.id);
+           // Only show toast if it's not the absolute first fetch on page load
+           // or if it's less than 30s old to prevent stale popups right on refresh
+           if (Date.now() - log.time < 30000) {
+             setMonitorToast(log.message);
+             setTimeout(() => setMonitorToast(null), 8000); // Hide after 8s
+           }
+        }
+      } catch (e) {}
+    }, 5000); // Check every 5 seconds for immediate demo feedback!
+    
+    return () => clearInterval(pollInterval);
+  }, [tab, lastLogId]);
 
   useEffect(() => {
     if (tab !== 'dashboard' || geo.status !== 'idle') return;
@@ -110,7 +136,13 @@ export function WorkerDashboard({ user, tab = 'dashboard' }) {
       setEventResult(r.data);
       setAi(prev => ({ ...r.data.ai, weather: r.data.ai.weather || prev?.weather }));
       await fetchHistory();
-      setTimeout(() => setStep('RESULT'), 2500);
+      setTimeout(() => {
+         setStep('RESULT');
+         if (r.data.payout && r.data.payout.status === 'processed') {
+            setPayoutData({ amount: r.data.payout.amount, mode: r.data.payout.mode, show: true });
+            setTimeout(() => setPayoutData(p => ({ ...p, show: false })), 3500);
+         }
+      }, 2500);
     } catch (e) {
       setError(toDisplayError(e?.response?.data?.detail || e?.message));
       setStep('DASHBOARD');
@@ -439,6 +471,34 @@ export function WorkerDashboard({ user, tab = 'dashboard' }) {
         )}
 
       </AnimatePresence>
+
+      <AnimatePresence>
+        {monitorToast && (
+          <motion.div
+            initial={{ opacity: 0, y: 50, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8, y: 20 }}
+            className="fixed bottom-10 right-6 sm:right-10 bg-black/80 backdrop-blur-3xl border border-blue-500/40 p-5 rounded-2xl shadow-[0_10px_50px_rgba(37,99,235,0.4)] z-[100] max-w-sm flex items-start gap-4 border-l-4 border-l-blue-500"
+          >
+            <div className="bg-blue-600/20 p-3 rounded-full text-blue-400 shrink-0 shadow-[0_0_15px_rgba(37,99,235,0.3)]">
+              <Activity className="w-6 h-6 animate-pulse" />
+            </div>
+            <div className="flex-1">
+              <h4 className="text-xs font-black uppercase tracking-widest text-blue-300 mb-1 leading-tight text-glow-blue">Automated AI Monitor</h4>
+              <p className="text-slate-200 text-sm font-medium leading-snug">{monitorToast}</p>
+            </div>
+            <button onClick={() => setMonitorToast(null)} className="text-slate-500 hover:text-white transition-colors shrink-0">
+              <XCircle className="w-5 h-5" />
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <PayoutAnimation 
+        show={payoutData.show} 
+        amount={payoutData.amount} 
+        mode={payoutData.mode} 
+      />
     </div>
   );
 }

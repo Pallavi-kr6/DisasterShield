@@ -1,5 +1,5 @@
-import axios from 'axios';
-import { mockWeather } from '../mocks.js';
+const axios = require('axios');
+const { mockWeather } = require('../mocks.js');
 
 const OPENWEATHER_KEY = process.env.OPENWEATHER_API_KEY || process.env.OWM_API_KEY;
 
@@ -7,7 +7,7 @@ function kToC(k) {
   return k - 273.15;
 }
 
-export async function getWeatherForCity(city) {
+async function getWeatherForCity(city) {
   // If no API key, always mock (system never breaks)
   if (!OPENWEATHER_KEY) return { ...mockWeather({ city, mode: 'NORMAL' }), source: 'mock' };
 
@@ -51,3 +51,4 @@ export async function getWeatherForCity(city) {
   }
 }
 
+module.exports = { getWeatherForCity };

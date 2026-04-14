@@ -25,7 +25,7 @@ function behaviorConsistency({ delivery_drop, predicted_loss, expected_income })
   return clamp01(1 - gap);
 }
 
-export function computeDecision(input) {
+function computeDecision(input) {
   const tNorm = normalizeTriggerScore(input.trigger_score);
   const wMatch = weatherMatch(input);
   const bCons = behaviorConsistency(input);
@@ -81,4 +81,6 @@ export function computeDecision(input) {
     },
   };
 }
+
+module.exports = { computeDecision };
 
