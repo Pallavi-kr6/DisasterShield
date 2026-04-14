@@ -12,62 +12,28 @@ const { signToken, verifyToken } = require('./auth.js');
 const { localFindOne, localInsert, localSelect } = require('./localStore.js');
 const { computePremium } = require('./premium.js');
 const { getSupabase } = require('./supabase.js');
+const { callAiPredictAll } = require('./services/aiService.js');
+const { startCron, getLatestMonitorLog } = require('./cron/weatherMonitor.js');
+const { processUserPayout } = require('./services/payoutService.js');
+const adminRoutes = require('./routes/adminRoutes.js');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+app.use('/api/admin', adminRoutes);
+
+app.get('/api/monitor-status', (req, res) => {
+  res.json({ log: getLatestMonitorLog() });
+});
 
 const PORT = process.env.PORT || 5000;
 
 //
 // 🔥 HACKATHON-PROOF AI CALL
 //
-async function callAiPredictAll(payload) {
-  const url = 'https://disastershield-model.onrender.com/predict-all';
-
-  // ✅ Warmup (non-blocking)
-  axios.get('https://disastershield-model.onrender.com').catch(() => {});
-
-  for (let attempt = 1; attempt <= 2; attempt++) {
-    try {
-      console.log(`[AI] Attempt ${attempt}`);
-
-      const res = await axios.post(url, payload, {
-        timeout: 30000,
-      });
-
-      return res.data;
-
-    } catch (err) {
-      console.warn(`[AI] Attempt ${attempt} failed:`, err.message);
-
-      if (attempt === 2) {
-        console.warn('[AI] Using FALLBACK MOCK');
-
-        // 🔥 NEVER FAIL FALLBACK
-        return fallbackAI(payload);
-      }
-
-      await new Promise(r => setTimeout(r, 5000));
-    }
-  }
-}
-
+// Imported from aiService.js
 //
-// 🔥 FALLBACK AI (CRITICAL FOR DEMO)
-//
-function fallbackAI(payload) {
-  const risk = payload.rainfall > 100 ? 'HIGH' : 'MEDIUM';
-
-  return {
-    risk_level: risk,
-    predicted_loss: payload.expected_income * 0.4,
-    payout_amount: payload.expected_income * 0.5,
-    trigger_score: payload.rainfall / 20,
-    fraud_score: 0.1,
-    triggered: payload.rainfall > 80,
-  };
-}
 
 //
 // 🔥 WARMUP ROUTE
@@ -293,35 +259,54 @@ app.post('/api/trigger', verifyToken, async (req, res) => {
       trust_score: 0.9,
       final_payout: ai.final_payout,
     };
+    
+    // Execute Razorpay Payout manually!
+    const payoutResult = await processUserPayout(req.user, ai.final_payout);
+    const payoutStatus = payoutResult?.status?.includes('failed') ? 'failed' : 'processed';
 
     const transaction = {
       id: crypto.randomUUID(),
       user_id: req.user.sub,
-      payout_amount: ai.final_payout,
-      status: 'PAID',
+      claim_id: claim.id,
+      amount: ai.final_payout,
+      razorpay_payout_id: payoutResult?.id || null,
+      status: payoutStatus,
       created_at: new Date().toISOString(),
     };
 
     try {
       const supabase = getSupabase();
       if (supabase && req.user.sub.includes('-')) {
-        const { error: claimsErr } = await supabase.from('claims').insert([{
-          id: claim.id,
-          user_id: claim.user_id,
-          risk_level: claim.risk_level,
-          decision: claim.decision,
-          trust_score: claim.trust_score,
-          final_payout: claim.final_payout
-        }]);
-        if (claimsErr) console.error('Supabase trigger save err (claims):', claimsErr?.message || claimsErr);
-        
-        const { error: txErr } = await supabase.from('transactions').insert([{
-          id: transaction.id,
-          user_id: transaction.user_id,
-          payout_amount: transaction.payout_amount,
-          status: transaction.status
-        }]);
-        if (txErr) console.error('Supabase trigger save err (transactions):', txErr?.message || txErr);
+        const { data: existingUser } = await supabase
+          .from("users")
+          .select("id")
+          .eq("id", req.user.sub)
+          .single();
+
+        if (!existingUser) {
+          console.log("User not found in DB, skipping insert");
+        } else {
+          const { error: claimsErr } = await supabase.from('claims').insert([{
+            id: claim.id,
+            user_id: claim.user_id,
+            created_at: claim.created_at,
+            risk_level: claim.risk_level,
+            decision: claim.decision,
+            trust_score: claim.trust_score,
+            final_payout: claim.final_payout
+          }]);
+          if (claimsErr) console.error('Supabase trigger save err (claims):', claimsErr?.message || claimsErr);
+          
+          const { error: txErr } = await supabase.from('transactions').insert([{
+            id: transaction.id,
+            user_id: transaction.user_id,
+            claim_id: transaction.claim_id,
+            amount: transaction.amount,
+            razorpay_payout_id: transaction.razorpay_payout_id,
+            status: transaction.status
+          }]);
+          if (txErr) console.error('Supabase trigger save err (transactions):', txErr?.message || txErr);
+        }
       } else if (!req.user.sub.includes('-')) {
          console.warn("Legacy timestamp User ID detected. Supabase sync skipped due to strict UUID constraints. Using local_store only.");
       }
@@ -348,4 +333,5 @@ app.post('/api/trigger', verifyToken, async (req, res) => {
 //
 app.listen(PORT, () => {
   console.log(`🚀 Server running on ${PORT}`);
+  startCron();
 });

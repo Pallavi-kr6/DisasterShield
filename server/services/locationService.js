@@ -1,9 +1,9 @@
-import axios from 'axios';
+const axios = require('axios');
 
 const OPENWEATHER_KEY = process.env.OPENWEATHER_API_KEY || process.env.OWM_API_KEY;
 const OPENCAGE_KEY = process.env.OPENCAGE_API_KEY;
 
-export async function getLocationFromRequest(req) {
+async function getLocationFromRequest(req) {
   // Prefer explicit client-provided location (mock GPS)
   const hdrCity = req.headers['x-client-city'];
   if (hdrCity) return { city: String(hdrCity), source: 'client_header' };
@@ -21,7 +21,7 @@ export async function getLocationFromRequest(req) {
   }
 }
 
-export async function reverseGeocodeCity(lat, lon) {
+async function reverseGeocodeCity(lat, lon) {
   const latitude = Number(lat);
   const longitude = Number(lon);
   if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) {
@@ -60,3 +60,5 @@ export async function reverseGeocodeCity(lat, lon) {
   // 3) Mock fallback (never break)
   return { detected_city: null, source: 'mock' };
 }
+
+module.exports = { getLocationFromRequest, reverseGeocodeCity };

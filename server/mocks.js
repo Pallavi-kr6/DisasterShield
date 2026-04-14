@@ -1,4 +1,4 @@
-export function mockWeather({ city, mode }) {
+function mockWeather({ city, mode }) {
   // Basic mock: returns realistic-ish values
   if (mode === 'HEAVY_RAIN') {
     return { city, rainfall: 110, temperature: 38, aqi: 240, mode };
@@ -12,14 +12,14 @@ export function mockWeather({ city, mode }) {
   return { city, rainfall: 5, temperature: 30, aqi: 80, mode: 'NORMAL' };
 }
 
-export function mockDeliveryDrop({ mode }) {
+function mockDeliveryDrop({ mode }) {
   if (mode === 'HEAVY_RAIN') return 0.55;
   if (mode === 'FLOOD') return 0.7;
   if (mode === 'POLLUTION') return 0.5;
   return 0.1;
 }
 
-export function mockPayment({ amount }) {
+function mockPayment({ amount }) {
   // Simulated payment provider
   return {
     provider: 'MOCK_PAY',
@@ -29,4 +29,6 @@ export function mockPayment({ amount }) {
     timestamp: new Date().toISOString(),
   };
 }
+
+module.exports = { mockWeather, mockDeliveryDrop, mockPayment };
 

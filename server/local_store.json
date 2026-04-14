@@ -49,6 +49,69 @@
       "city": "TamilNadu",
       "role": "user",
       "platform": "ZOMATO_SWIGGY"
+    },
+    {
+      "id": "126cb5c6-9389-457f-9c3c-b6b93eb75bbb",
+      "name": "Test User",
+      "email": "test@example.com",
+      "password_hash": "$2a$10$F9.fGxz5eD/euX0Sk0VXaeEyhM6w2yckt9x9am0mI5msNvZK6Wc/a",
+      "city": "Mumbai",
+      "role": "user",
+      "platform": "ZOMATO_SWIGGY"
+    },
+    {
+      "id": "fcf15795-53cc-47d3-b361-0dff57b29e1f",
+      "name": "Worker",
+      "email": "worker@gmail.com",
+      "password_hash": "$2a$10$Qkw.jCjFFHRxObGpztyFVOm0wZwmVQeG1tmmjciZ3lD/CDOqck8Vi",
+      "city": "Chennai",
+      "role": "user",
+      "platform": "ZOMATO_SWIGGY"
+    },
+    {
+      "id": "dc4d93fc-b955-4272-9554-65beb47a8dfe",
+      "name": "Aastha Singh",
+      "email": "worker123@gmail.com",
+      "password_hash": "$2a$10$E7xIcbRnaFqhX5ngjBjWBeWP.KwKhS1S3YKgm7Ia5uv6xdiZ9iRt.",
+      "city": "Chennai",
+      "role": "user",
+      "platform": "ZOMATO_SWIGGY"
+    },
+    {
+      "id": "f921dbb3-0564-4d29-b2cf-963caba5e7f4",
+      "name": "Aastha",
+      "email": "rs8610396@gmail.com",
+      "password_hash": "$2a$10$WdHWCJv3GVNLBdcnUH.J..aCOqT559cVMnlneFZyZVoob0RiqXq16",
+      "city": "Chennai",
+      "role": "user",
+      "platform": "ZOMATO_SWIGGY"
+    },
+    {
+      "id": "c33c6a02-155b-4614-8c6b-5c1cee0c5f1e",
+      "name": "Pallavi",
+      "email": "Worker@gmail.com",
+      "password_hash": "$2a$10$Xt7RlDE8.Otph.cRDl/i4.nXkeEQPw4S1M1g.taEumqpcuTGWDPte",
+      "city": "Chennai",
+      "role": "user",
+      "platform": "ZOMATO_SWIGGY"
+    },
+    {
+      "id": "116221ff-4c72-49b2-a777-89743967dcb1",
+      "name": "Aastha Singh",
+      "email": "worker123@gmail.com",
+      "password_hash": "$2a$10$ApZxffSZReaCmVjsYNwu3Of0Qi1ELj6BWdDeiKVnlVkbaePxfOiUS",
+      "city": "Chennai",
+      "role": "user",
+      "platform": "ZOMATO_SWIGGY"
+    },
+    {
+      "id": "d1147eff-fe57-4451-bb30-b3b5e14424bc",
+      "name": "Pallavi",
+      "email": "pk2239@srmist.edu.in",
+      "password_hash": "$2a$10$.TpFRWVr3TJFTGkXfcO7UOWHz7pJJON5aAEV68tAptnO3Q6rYYTjO",
+      "city": "Chennai",
+      "role": "user",
+      "platform": "ZOMATO_SWIGGY"
     }
   ],
   "claims": [
@@ -114,6 +177,150 @@
       "decision": "APPROVED",
       "trust_score": 0.9,
       "final_payout": 750
+    },
+    {
+      "id": "cc33e53f-73a7-4259-9ba5-2f21d7f85f4f",
+      "user_id": "58dd0f62-ddcb-4aed-94ce-ad483e9c5427",
+      "created_at": "2026-04-14T05:46:15.129Z",
+      "risk_level": "HIGH",
+      "decision": "APPROVED",
+      "trust_score": 0.9,
+      "final_payout": 2500
+    },
+    {
+      "id": "d8e926e2-bf6c-4686-ac23-cc9338dc211d",
+      "user_id": "fcf15795-53cc-47d3-b361-0dff57b29e1f",
+      "created_at": "2026-04-14T06:09:12.933Z",
+      "risk_level": "HIGH",
+      "decision": "APPROVED",
+      "trust_score": 0.9,
+      "final_payout": 2500
+    },
+    {
+      "id": "3e75ffae-7f36-449a-adf9-77bd9652e725",
+      "user_id": "dc4d93fc-b955-4272-9554-65beb47a8dfe",
+      "created_at": "2026-04-14T06:14:32.650Z",
+      "risk_level": "HIGH",
+      "decision": "APPROVED",
+      "trust_score": 0.9,
+      "final_payout": 2500
+    },
+    {
+      "id": "94ea390a-8dbf-4022-9e30-0c679a9eefa1",
+      "user_id": "dc4d93fc-b955-4272-9554-65beb47a8dfe",
+      "created_at": "2026-04-14T06:15:41.255Z",
+      "risk_level": "HIGH",
+      "decision": "APPROVED",
+      "trust_score": 0.9,
+      "final_payout": 2500
+    },
+    {
+      "id": "8c79797f-929a-4662-b52a-1d0cf325cdb4",
+      "user_id": "f921dbb3-0564-4d29-b2cf-963caba5e7f4",
+      "created_at": "2026-04-14T06:26:51.046Z",
+      "risk_level": "HIGH",
+      "decision": "APPROVED",
+      "trust_score": 0.9,
+      "final_payout": 2500
+    },
+    {
+      "id": "cf0ec882-800c-419c-885e-a23474a3d427",
+      "user_id": "c33c6a02-155b-4614-8c6b-5c1cee0c5f1e",
+      "created_at": "2026-04-14T07:06:28.810Z",
+      "risk_level": "HIGH",
+      "decision": "APPROVED",
+      "trust_score": 0.9,
+      "final_payout": 2500
+    },
+    {
+      "id": "d06ad7d3-db36-45ef-a00e-4e7275e0270e",
+      "user_id": "c33c6a02-155b-4614-8c6b-5c1cee0c5f1e",
+      "created_at": "2026-04-14T07:14:59.850Z",
+      "risk_level": "HIGH",
+      "decision": "APPROVED",
+      "trust_score": 0.9,
+      "final_payout": 2500
+    },
+    {
+      "id": "777477c4-dab5-4233-9722-7493e232747c",
+      "user_id": "c33c6a02-155b-4614-8c6b-5c1cee0c5f1e",
+      "created_at": "2026-04-14T07:16:50.915Z",
+      "risk_level": "HIGH",
+      "decision": "APPROVED",
+      "trust_score": 0.9,
+      "final_payout": 2500
+    },
+    {
+      "id": "656b7e9a-47b0-4881-8c06-a78497552e8b",
+      "user_id": "c33c6a02-155b-4614-8c6b-5c1cee0c5f1e",
+      "created_at": "2026-04-14T07:18:25.477Z",
+      "risk_level": "HIGH",
+      "decision": "APPROVED",
+      "trust_score": 0.9,
+      "final_payout": 2500
+    },
+    {
+      "id": "03cabcb0-cfcc-4117-98c4-f071cb63d38b",
+      "user_id": "c33c6a02-155b-4614-8c6b-5c1cee0c5f1e",
+      "created_at": "2026-04-14T07:21:59.007Z",
+      "risk_level": "HIGH",
+      "decision": "APPROVED",
+      "trust_score": 0.9,
+      "final_payout": 2500
+    },
+    {
+      "id": "dbc9b7dc-6c59-49d6-8aa2-f3f33748111e",
+      "user_id": "dc4d93fc-b955-4272-9554-65beb47a8dfe",
+      "created_at": "2026-04-14T07:24:34.301Z",
+      "risk_level": "HIGH",
+      "decision": "APPROVED",
+      "trust_score": 0.9,
+      "final_payout": 2500
+    },
+    {
+      "id": "61bb5983-6bcf-4809-891b-40bec55c675c",
+      "user_id": "116221ff-4c72-49b2-a777-89743967dcb1",
+      "created_at": "2026-04-14T07:28:33.462Z",
+      "risk_level": "HIGH",
+      "decision": "APPROVED",
+      "trust_score": 0.9,
+      "final_payout": 2500
+    },
+    {
+      "id": "a60b4d65-96bc-4a45-bae9-04bea246f3ac",
+      "user_id": "58dd0f62-ddcb-4aed-94ce-ad483e9c5427",
+      "created_at": "2026-04-14T07:38:03.581Z",
+      "risk_level": "HIGH",
+      "decision": "APPROVED",
+      "trust_score": 0.9,
+      "final_payout": 1000
+    },
+    {
+      "id": "303a11d3-1134-4030-89fa-3931ceb9b4e3",
+      "user_id": "116221ff-4c72-49b2-a777-89743967dcb1",
+      "created_at": "2026-04-14T07:43:26.072Z",
+      "risk_level": "HIGH",
+      "decision": "APPROVED",
+      "trust_score": 0.9,
+      "final_payout": 2500
+    },
+    {
+      "id": "223e035a-4509-45e1-96e0-8c719434bf47",
+      "user_id": "58dd0f62-ddcb-4aed-94ce-ad483e9c5427",
+      "created_at": "2026-04-14T07:58:59.127Z",
+      "risk_level": "HIGH",
+      "decision": "APPROVED",
+      "trust_score": 0.9,
+      "final_payout": 2500
+    },
+    {
+      "id": "44bb30d3-3a54-4570-84fb-1dbfdd681437",
+      "user_id": "d1147eff-fe57-4451-bb30-b3b5e14424bc",
+      "created_at": "2026-04-14T08:01:10.604Z",
+      "risk_level": "HIGH",
+      "decision": "APPROVED",
+      "trust_score": 0.9,
+      "final_payout": 2500
     }
   ],
   "transactions": [
@@ -167,6 +374,138 @@
       "payout_amount": 750,
       "status": "PAID",
       "created_at": "2026-04-03T15:04:17.122Z"
+    },
+    {
+      "id": "feffed5f-041e-4ee7-baa9-7fbb3a1f4dd2",
+      "user_id": "58dd0f62-ddcb-4aed-94ce-ad483e9c5427",
+      "payout_amount": 2500,
+      "status": "PAID",
+      "created_at": "2026-04-14T05:46:15.129Z"
+    },
+    {
+      "id": "83d4a5c5-efc0-4330-aa8b-634a93c44ac7",
+      "user_id": "fcf15795-53cc-47d3-b361-0dff57b29e1f",
+      "payout_amount": 2500,
+      "status": "PAID",
+      "created_at": "2026-04-14T06:09:12.933Z"
+    },
+    {
+      "id": "3ae5208a-8694-4ab7-8712-97ecdfbdc348",
+      "user_id": "dc4d93fc-b955-4272-9554-65beb47a8dfe",
+      "payout_amount": 2500,
+      "status": "PAID",
+      "created_at": "2026-04-14T06:14:32.650Z"
+    },
+    {
+      "id": "4f437760-95f4-4838-aa78-87322c104c2a",
+      "user_id": "dc4d93fc-b955-4272-9554-65beb47a8dfe",
+      "payout_amount": 2500,
+      "status": "PAID",
+      "created_at": "2026-04-14T06:15:41.255Z"
+    },
+    {
+      "id": "b02f7c35-046b-4a4e-af00-e84b2667217c",
+      "user_id": "f921dbb3-0564-4d29-b2cf-963caba5e7f4",
+      "payout_amount": 2500,
+      "status": "PAID",
+      "created_at": "2026-04-14T06:26:51.046Z"
+    },
+    {
+      "id": "e9ed7a72-4998-4ad4-95cf-35a777f5b490",
+      "user_id": "c33c6a02-155b-4614-8c6b-5c1cee0c5f1e",
+      "payout_amount": 2500,
+      "status": "PAID",
+      "created_at": "2026-04-14T07:06:28.811Z"
+    },
+    {
+      "id": "c912084c-24c7-4eb5-b955-9c97ebad56a1",
+      "user_id": "c33c6a02-155b-4614-8c6b-5c1cee0c5f1e",
+      "claim_id": "d06ad7d3-db36-45ef-a00e-4e7275e0270e",
+      "amount": 2500,
+      "razorpay_payout_id": "sim_pout_1776150899851",
+      "status": "processed",
+      "created_at": "2026-04-14T07:14:59.851Z"
+    },
+    {
+      "id": "2184eead-fcfd-44f7-a25b-bebe6904a6ca",
+      "user_id": "c33c6a02-155b-4614-8c6b-5c1cee0c5f1e",
+      "claim_id": "777477c4-dab5-4233-9722-7493e232747c",
+      "amount": 2500,
+      "razorpay_payout_id": null,
+      "status": "failed",
+      "created_at": "2026-04-14T07:16:54.436Z"
+    },
+    {
+      "id": "f67c01f2-2765-4d92-b38e-5f4a3d2a7a53",
+      "user_id": "c33c6a02-155b-4614-8c6b-5c1cee0c5f1e",
+      "claim_id": "656b7e9a-47b0-4881-8c06-a78497552e8b",
+      "amount": 2500,
+      "razorpay_payout_id": null,
+      "status": "failed",
+      "created_at": "2026-04-14T07:18:31.551Z"
+    },
+    {
+      "id": "5e01455e-e220-47df-89c2-7b60719ac516",
+      "user_id": "c33c6a02-155b-4614-8c6b-5c1cee0c5f1e",
+      "claim_id": "03cabcb0-cfcc-4117-98c4-f071cb63d38b",
+      "amount": 2500,
+      "razorpay_payout_id": null,
+      "status": "failed",
+      "created_at": "2026-04-14T07:22:04.922Z"
+    },
+    {
+      "id": "68441e1e-4b6b-4e94-98f5-21cefc893e71",
+      "user_id": "dc4d93fc-b955-4272-9554-65beb47a8dfe",
+      "claim_id": "dbc9b7dc-6c59-49d6-8aa2-f3f33748111e",
+      "amount": 2500,
+      "razorpay_payout_id": null,
+      "status": "failed",
+      "created_at": "2026-04-14T07:24:39.844Z"
+    },
+    {
+      "id": "3b59ce3c-89ad-4ce5-98a7-3c0e368fa0cd",
+      "user_id": "116221ff-4c72-49b2-a777-89743967dcb1",
+      "claim_id": "61bb5983-6bcf-4809-891b-40bec55c675c",
+      "amount": 2500,
+      "razorpay_payout_id": null,
+      "status": "failed",
+      "created_at": "2026-04-14T07:28:39.282Z"
+    },
+    {
+      "id": "7a549d78-7cd2-429c-a48b-e81a2ed8d7aa",
+      "user_id": "58dd0f62-ddcb-4aed-94ce-ad483e9c5427",
+      "claim_id": "a60b4d65-96bc-4a45-bae9-04bea246f3ac",
+      "amount": 1000,
+      "razorpay_payout_id": null,
+      "status": "failed",
+      "created_at": "2026-04-14T07:38:09.508Z"
+    },
+    {
+      "id": "3e250519-f8b5-4961-8d7d-ea35958e6fe7",
+      "user_id": "116221ff-4c72-49b2-a777-89743967dcb1",
+      "claim_id": "303a11d3-1134-4030-89fa-3931ceb9b4e3",
+      "amount": 2500,
+      "razorpay_payout_id": null,
+      "status": "processed",
+      "created_at": "2026-04-14T07:43:31.802Z"
+    },
+    {
+      "id": "9e4e2405-53e8-4b49-bf12-baef7b5357ed",
+      "user_id": "58dd0f62-ddcb-4aed-94ce-ad483e9c5427",
+      "claim_id": "223e035a-4509-45e1-96e0-8c719434bf47",
+      "amount": 2500,
+      "razorpay_payout_id": "mock_1776153541161",
+      "status": "processed",
+      "created_at": "2026-04-14T07:59:01.162Z"
+    },
+    {
+      "id": "b6985862-fdc8-4cf2-b412-a7648f79d192",
+      "user_id": "d1147eff-fe57-4451-bb30-b3b5e14424bc",
+      "claim_id": "44bb30d3-3a54-4570-84fb-1dbfdd681437",
+      "amount": 2500,
+      "razorpay_payout_id": "mock_1776153672509",
+      "status": "processed",
+      "created_at": "2026-04-14T08:01:12.509Z"
     }
   ],
   "risk_logs": []
