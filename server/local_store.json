@@ -321,6 +321,33 @@
       "decision": "APPROVED",
       "trust_score": 0.9,
       "final_payout": 2500
+    },
+    {
+      "id": "3725b408-4e21-4663-acbb-04232ba45235",
+      "user_id": "d1147eff-fe57-4451-bb30-b3b5e14424bc",
+      "created_at": "2026-04-14T08:22:15.774Z",
+      "risk_level": "HIGH",
+      "decision": "APPROVED",
+      "trust_score": 0.9,
+      "final_payout": 2500
+    },
+    {
+      "id": "ce491823-1a52-410f-8fe6-c10a9e16b196",
+      "user_id": "d1147eff-fe57-4451-bb30-b3b5e14424bc",
+      "created_at": "2026-04-14T08:22:28.522Z",
+      "risk_level": "HIGH",
+      "decision": "APPROVED",
+      "trust_score": 0.9,
+      "final_payout": 2500
+    },
+    {
+      "id": "c596fbed-ebc4-428f-8fa7-ee953325eb10",
+      "user_id": "d1147eff-fe57-4451-bb30-b3b5e14424bc",
+      "created_at": "2026-04-14T08:28:33.701Z",
+      "risk_level": "HIGH",
+      "decision": "APPROVED",
+      "trust_score": 0.9,
+      "final_payout": 2500
     }
   ],
   "transactions": [
@@ -506,6 +533,33 @@
       "razorpay_payout_id": "mock_1776153672509",
       "status": "processed",
       "created_at": "2026-04-14T08:01:12.509Z"
+    },
+    {
+      "id": "ac423694-bf4d-465d-81de-371f4da919a6",
+      "user_id": "d1147eff-fe57-4451-bb30-b3b5e14424bc",
+      "claim_id": "3725b408-4e21-4663-acbb-04232ba45235",
+      "amount": 2500,
+      "razorpay_payout_id": "mock_1776154937616",
+      "status": "processed",
+      "created_at": "2026-04-14T08:22:17.616Z"
+    },
+    {
+      "id": "20ea5f48-a701-477a-91c4-3156895cc4bb",
+      "user_id": "d1147eff-fe57-4451-bb30-b3b5e14424bc",
+      "claim_id": "ce491823-1a52-410f-8fe6-c10a9e16b196",
+      "amount": 2500,
+      "razorpay_payout_id": "mock_1776154950213",
+      "status": "processed",
+      "created_at": "2026-04-14T08:22:30.214Z"
+    },
+    {
+      "id": "46615ee4-7e8f-4efe-915e-a34a9a2a7ceb",
+      "user_id": "d1147eff-fe57-4451-bb30-b3b5e14424bc",
+      "claim_id": "c596fbed-ebc4-428f-8fa7-ee953325eb10",
+      "amount": 2500,
+      "razorpay_payout_id": "mock_1776155315508",
+      "status": "processed",
+      "created_at": "2026-04-14T08:28:35.509Z"
     }
   ],
   "risk_logs": []

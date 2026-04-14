@@ -321,6 +321,7 @@ app.post('/api/trigger', verifyToken, async (req, res) => {
       ai,
       approved: true,
       payment: { status: 'PAID' },
+      payout: payoutResult,
     });
   } catch (e) {
     console.error('Trigger Endpoint Exception:', e?.message || e);

@@ -6,6 +6,7 @@ import {
   CloudRain, Wind, Thermometer, MapPin, AlertTriangle, ShieldCheck,
   Activity, Shield, Info, DollarSign, Rocket, CheckCircle2, XCircle, Search
 } from 'lucide-react';
+import PayoutAnimation from '../components/PayoutAnimation';
 
 const platformOptions = [
   { value: 'ZOMATO_SWIGGY', label: 'Zomato / Swiggy', base: 35 },
@@ -26,6 +27,7 @@ export function WorkerDashboard({ user, tab = 'dashboard' }) {
   const [history, setHistory] = useState({ claims: [], transactions: [] });
   const [error, setError] = useState('');
   const [geo, setGeo] = useState({ lat: null, lon: null, status: 'idle' });
+  const [payoutData, setPayoutData] = useState({ amount: 0, mode: '', show: false });
   
   // TOAST NOTIFICATION STATE
   const [monitorToast, setMonitorToast] = useState(null);
@@ -134,7 +136,13 @@ export function WorkerDashboard({ user, tab = 'dashboard' }) {
       setEventResult(r.data);
       setAi(prev => ({ ...r.data.ai, weather: r.data.ai.weather || prev?.weather }));
       await fetchHistory();
-      setTimeout(() => setStep('RESULT'), 2500);
+      setTimeout(() => {
+         setStep('RESULT');
+         if (r.data.payout && r.data.payout.status === 'processed') {
+            setPayoutData({ amount: r.data.payout.amount, mode: r.data.payout.mode, show: true });
+            setTimeout(() => setPayoutData(p => ({ ...p, show: false })), 3500);
+         }
+      }, 2500);
     } catch (e) {
       setError(toDisplayError(e?.response?.data?.detail || e?.message));
       setStep('DASHBOARD');
@@ -485,6 +493,12 @@ export function WorkerDashboard({ user, tab = 'dashboard' }) {
           </motion.div>
         )}
       </AnimatePresence>
+
+      <PayoutAnimation 
+        show={payoutData.show} 
+        amount={payoutData.amount} 
+        mode={payoutData.mode} 
+      />
     </div>
   );
 }
