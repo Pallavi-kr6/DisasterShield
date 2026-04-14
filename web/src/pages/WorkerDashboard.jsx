@@ -7,6 +7,7 @@ import {
   Activity, Shield, Info, DollarSign, Rocket, CheckCircle2, XCircle, Search
 } from 'lucide-react';
 import PayoutAnimation from '../components/PayoutAnimation';
+import Heatmap from '../components/Heatmap';
 
 const platformOptions = [
   { value: 'ZOMATO_SWIGGY', label: 'Zomato / Swiggy', base: 35 },
@@ -425,6 +426,11 @@ export function WorkerDashboard({ user, tab = 'dashboard' }) {
                 </button>
               </div>
             </motion.div>
+            
+            <motion.div variants={fadeUp} className="w-full max-w-4xl mx-auto mb-10">
+              <Heatmap claims={history.claims} />
+            </motion.div>
+
           </motion.div>
         )}
 
