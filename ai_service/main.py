@@ -18,6 +18,11 @@ class PredictAllRequest(BaseModel):
     expected_income: float = Field(..., ge=0, examples=[5000])
 
 
+class CityPulseRequest(BaseModel):
+    city: str | None = None
+    lat: float | None = None
+    lon: float | None = None
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # CRITICAL: Use only pre-trained models from /models (no training).
@@ -84,5 +89,27 @@ def home():
         "message": "DisasterShield API is running 🚀",
         "docs": "/docs",
         "health": "/health",
-        "predict": "/predict-all"
+        "predict": "/predict-all",
+        "city_pulse": "/city-pulse"
     }
+
+
+@app.post("/city-pulse")
+def get_city_pulse(body: CityPulseRequest):
+    import sys
+    import os
+    # Dynamically inject parent to safely import devmodels without crashing existing files
+    parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+    if parent_dir not in sys.path:
+        sys.path.insert(0, parent_dir)
+        
+    try:
+        from devmodels.city_pulse_service import calculate_city_pulse_score
+        return calculate_city_pulse_score(city=body.city, lat=body.lat, lon=body.lon)
+    except Exception as e:
+        return {
+            "score": 50,
+            "status": "Moderate",
+            "insights": ["Failed to calculate pulse score due to internal service issues."],
+            "recommendations": ["Service currently running in safe mode. Retrying recommended."]
+        }

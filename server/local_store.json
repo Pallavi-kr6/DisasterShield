@@ -130,6 +130,15 @@
       "city": "Chennai",
       "role": "user",
       "platform": "ZOMATO_SWIGGY"
+    },
+    {
+      "id": "6e160ead-9a38-4e7b-bd4d-916b945b92fb",
+      "name": "Pallavi Kumari",
+      "email": "a@gmail.com",
+      "password_hash": "$2a$10$2JJAmQjSoKTYYh75HNU4v.rTYJK/3uIr5eAyhmEbou.M/F/uGedJ2",
+      "city": "Chennai",
+      "role": "user",
+      "platform": "ZOMATO_SWIGGY"
     }
   ],
   "claims": [
@@ -384,6 +393,24 @@
       "decision": "APPROVED",
       "trust_score": 0.9,
       "final_payout": 1000
+    },
+    {
+      "id": "dc2024de-06cf-4b61-9502-71d0357de6f1",
+      "user_id": "6e160ead-9a38-4e7b-bd4d-916b945b92fb",
+      "created_at": "2026-04-16T12:53:30.962Z",
+      "risk_level": "HIGH",
+      "decision": "APPROVED",
+      "trust_score": 0.9,
+      "final_payout": 2500
+    },
+    {
+      "id": "6f4ab335-a948-4974-95ac-38d162549130",
+      "user_id": "ea848d78-dd0c-4019-870a-a5b3abe06a4d",
+      "created_at": "2026-04-16T13:00:17.592Z",
+      "risk_level": "HIGH",
+      "decision": "APPROVED",
+      "trust_score": 0.9,
+      "final_payout": 1000
     }
   ],
   "transactions": [
@@ -614,6 +641,24 @@
       "razorpay_payout_id": "mock_1776341098863",
       "status": "processed",
       "created_at": "2026-04-16T12:04:58.864Z"
+    },
+    {
+      "id": "d4e7a1a1-2bce-4284-ad70-5eb26e6beee6",
+      "user_id": "6e160ead-9a38-4e7b-bd4d-916b945b92fb",
+      "claim_id": "dc2024de-06cf-4b61-9502-71d0357de6f1",
+      "amount": 2500,
+      "razorpay_payout_id": "mock_1776344012621",
+      "status": "processed",
+      "created_at": "2026-04-16T12:53:32.622Z"
+    },
+    {
+      "id": "9b72e144-80d3-43dd-b935-248355b14f6e",
+      "user_id": "ea848d78-dd0c-4019-870a-a5b3abe06a4d",
+      "claim_id": "6f4ab335-a948-4974-95ac-38d162549130",
+      "amount": 1000,
+      "razorpay_payout_id": "mock_1776344419193",
+      "status": "processed",
+      "created_at": "2026-04-16T13:00:19.193Z"
     }
   ],
   "risk_logs": []
