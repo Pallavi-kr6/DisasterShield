@@ -544,7 +544,7 @@ export default function DisasterShield() {
           </div>
 
           <div className="footer-bottom">
-            <p>© 2025 DisasterShield. All rights reserved.</p>
+            <p>©DisasterShield. All rights reserved.</p>
             <div className="contributors">
               Contributors:{" "}
               <span>Aakash Kumar, Aastha Singh, Pallavi Kumari, Adriza Srivastava, Rahul Jaiswal</span>
