@@ -366,7 +366,7 @@ export default function DisasterShield() {
             ))}
           </ul>
 
-          <a href="http://localhost:5173/login" className="btn-login" target="_blank" rel="noopener noreferrer">Login</a>
+          <a href="/login" className="btn-login">Login</a>
         </div>
       </nav>
 
