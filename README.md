@@ -26,6 +26,9 @@ DisasterShield AI is a fully automated parametric system:
 
 ## Key Features
 - **Real‑time weather integration** (OpenWeatherMap) with safe mock fallback
+- **City Pulse Score System**: Advanced dynamic scoring evaluating city infrastructure, traffic, and weather risks in real-time.
+- **Automated Background Payouts (Cron)**: 24/7 localized background scheduled monitoring triggering payouts automatically without human intervention.
+- **Razorpay Integrations**: Real-world UPI processing pipeline with robust resilient fallback routines.
 - **AI risk scoring + income loss prediction** (pre‑trained models only)
 - **Parametric trigger engine** (rules + Isolation Forest)
 - **Trust‑Based Decision Engine**: APPROVED / PARTIAL / REJECTED with final payout
@@ -232,11 +235,24 @@ Example request:
 - **GET** `/api/claims/:user_id`
 - **GET** `/api/transactions/:user_id`
 
+### City Pulse System (Geospatial Insights)
+- **POST** `/city-pulse` *(Runs natively on FastAPI: `127.0.0.1:9000`)*
+
+Example request:
+```json
+{
+  "city": "Chennai",
+  "lat": 13.0827,
+  "lon": 80.2707
+}
+```
+
 ---
 
 ## Frontend Overview
 ### Worker Dashboard
 - Risk level, premium, predicted loss, trigger status
+- **City Pulse Widget**: Fully integrated widget displaying analytical insights, safety recommendations, and a health score.
 - Trust score meter + final payout + reason
 - Fraud alerts + penalty breakdown + detected city
 - Past claims table + total payout saved (persists on refresh)
@@ -255,15 +271,17 @@ Key modules:
 
 ---
 
-## Database Schema (Basic)
-Core tables:
-- `users`: name, email, password_hash, role, city, platform, fraud_count, last_claim_time
-- `claims`: ML outputs + fraud signals + penalties + decision + final payout
-- `transactions`: payout records linked to claims
+## Database Schema (Refined Architecture)
+Core tables defined natively inside `supabase/final_schema.sql`:
+- `users`: name, email (UNIQUE), role, platform, upi_id, rzp_fund_account_id, fraud_count, last_claim_time
+- `policies`: premium tracking and coverage thresholds per active user
+- `claims`: ML outputs + penalties + decision + numeric `trigger_score`
+- `transactions`: payout records linked via cascade mapping strictly over razorpay_payout_id 
+- `risk_logs`: Automated cron logs for regional weather conditions and triggers
 
 Schema and migrations:
-- `supabase/schema.sql`
-- `supabase/migrations/*.sql`
+- `supabase/final_schema.sql` (Recommended Production Target)
+- `supabase/schema.sql` (Legacy)
 
 ---
 
