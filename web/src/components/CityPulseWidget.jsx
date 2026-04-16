@@ -16,8 +16,9 @@ export default function CityPulseWidget() {
     setPulseData(null);
 
     try {
-      // Connects to the local Python AI Service running on port 9000
-      const response = await axios.post("http://127.0.0.1:9000/city-pulse", {
+      // Connects safely avoiding hardcoded localhost blocking on external networks/Render deploy
+      const AI_URL = import.meta.env.VITE_AI_URL || "http://127.0.0.1:9000";
+      const response = await axios.post(`${AI_URL}/city-pulse`, {
         city: cityInput
       });
       setPulseData(response.data);
