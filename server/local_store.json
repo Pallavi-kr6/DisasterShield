@@ -112,6 +112,24 @@
       "city": "Chennai",
       "role": "user",
       "platform": "ZOMATO_SWIGGY"
+    },
+    {
+      "id": "ea39e5ab-e442-446f-977e-5de3d09064d3",
+      "name": "Aastha Singh",
+      "email": "worker@gmail.com",
+      "password_hash": "$2a$10$zobvjJJlwjgNg5Hqo.ustuurg0HpukQUHsA.hmImH6XBh.hkG18tO",
+      "city": "Chennai",
+      "role": "user",
+      "platform": "ZOMATO_SWIGGY"
+    },
+    {
+      "id": "ea848d78-dd0c-4019-870a-a5b3abe06a4d",
+      "name": "Worker",
+      "email": "Worker@gmail.com",
+      "password_hash": "$2a$10$HSZlHzlPMRD/.Jj4Gh4vu.iNqzDYKJ8GvtrBug4GO9VxcwcO9XMAC",
+      "city": "Chennai",
+      "role": "user",
+      "platform": "ZOMATO_SWIGGY"
     }
   ],
   "claims": [
@@ -348,6 +366,24 @@
       "decision": "APPROVED",
       "trust_score": 0.9,
       "final_payout": 2500
+    },
+    {
+      "id": "77cd1179-410f-4833-990a-348a49a868a9",
+      "user_id": "ea39e5ab-e442-446f-977e-5de3d09064d3",
+      "created_at": "2026-04-16T12:01:19.871Z",
+      "risk_level": "HIGH",
+      "decision": "APPROVED",
+      "trust_score": 0.9,
+      "final_payout": 2500
+    },
+    {
+      "id": "297b6fb0-3107-4766-8d61-7c2d782bac90",
+      "user_id": "ea848d78-dd0c-4019-870a-a5b3abe06a4d",
+      "created_at": "2026-04-16T12:04:57.342Z",
+      "risk_level": "HIGH",
+      "decision": "APPROVED",
+      "trust_score": 0.9,
+      "final_payout": 1000
     }
   ],
   "transactions": [
@@ -560,6 +596,24 @@
       "razorpay_payout_id": "mock_1776155315508",
       "status": "processed",
       "created_at": "2026-04-14T08:28:35.509Z"
+    },
+    {
+      "id": "90aed541-f5da-44f4-b8ca-e3ce0ff507b0",
+      "user_id": "ea39e5ab-e442-446f-977e-5de3d09064d3",
+      "claim_id": "77cd1179-410f-4833-990a-348a49a868a9",
+      "amount": 2500,
+      "razorpay_payout_id": "mock_1776340881707",
+      "status": "processed",
+      "created_at": "2026-04-16T12:01:21.707Z"
+    },
+    {
+      "id": "1e0b867d-4579-4de4-8fab-ab3c2b46bc7e",
+      "user_id": "ea848d78-dd0c-4019-870a-a5b3abe06a4d",
+      "claim_id": "297b6fb0-3107-4766-8d61-7c2d782bac90",
+      "amount": 1000,
+      "razorpay_payout_id": "mock_1776341098863",
+      "status": "processed",
+      "created_at": "2026-04-16T12:04:58.864Z"
     }
   ],
   "risk_logs": []
