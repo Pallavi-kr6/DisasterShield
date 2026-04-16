@@ -386,17 +386,23 @@ export default function DisasterShield() {
             <p className="hero-desc">
               Harness real-time AI monitoring, predictive analytics, and instant multi-channel alerts to protect communities before disaster strikes — not after.
             </p>
-            <div className="hero-btns">
-              <button className="btn-primary">Get Started →</button>
-              <button className="btn-outline">
-                <span className="play-icon">
-                  <svg width="9" height="11" viewBox="0 0 9 11" fill="white">
-                    <path d="M0 0l9 5.5L0 11V0z" />
-                  </svg>
-                </span>
-                Watch Demo
-              </button>
-            </div>
+         <div className="hero-btns">
+  <button className="btn-primary">
+    Get Started →
+  </button>
+
+  <button 
+    className="btn-outline"
+    onClick={() => window.open("https://youtu.be/1QvLLQa8azk?si=15vVvMrq3m0-KC6T", "_blank")}
+  >
+    <span className="play-icon">
+      <svg width="9" height="11" viewBox="0 0 9 11" fill="white">
+        <path d="M0 0l9 5.5L0 11V0z" />
+      </svg>
+    </span>
+    Watch Demo
+  </button>
+</div>
           </div>
 
           {/* DASHBOARD MOCKUP */}
