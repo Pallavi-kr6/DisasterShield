@@ -553,7 +553,7 @@ export default function DisasterShield() {
             <p>©DisasterShield. All rights reserved.</p>
             <div className="contributors">
               Contributors:{" "}
-              <span>Aakash Kumar, Aastha Singh, Pallavi Kumari, Adriza Srivastava, Rahul Jaiswal</span>
+              <span>Pallavi Kumari,Aakash Kumar, Aastha Singh, Adriza Srivastava, Rahul Jaiswal</span>
             </div>
           </div>
         </div>
